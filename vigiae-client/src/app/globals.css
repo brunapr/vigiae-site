@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: oklch(0.6 0.2 240);
+  --color-primary-content: oklch(1 0 0);
+  --color-secondary: oklch(0.6 0.15 300);
+  --color-secondary-content: oklch(1 0 0);
+  --color-accent: oklch(0.6 0.2 180);
+  --color-accent-content: oklch(1 0 0);
+  --color-neutral: oklch(0.4 0.05 240);
+  --color-neutral-content: oklch(0.9 0.01 240);
+  --color-base-100: oklch(1 0 0);
+  --color-base-200: oklch(0.97 0.01 240);
+  --color-base-300: oklch(0.93 0.01 240);
+  --color-base-content: oklch(0.2 0.02 240);
+  --color-info: oklch(0.7 0.15 220);
+  --color-success: oklch(0.7 0.2 140);
+  --color-warning: oklch(0.8 0.15 80);
+  --color-error: oklch(0.6 0.2 30);
+}
+
+@plugin "daisyui" {
+  themes: light, dark;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply antialiased;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
