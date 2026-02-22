@@ -11,14 +11,14 @@ import {
   updateInspection,
   deleteInspection,
 } from "@/features/inspections/api/inspections-api"
-import { ClipboardList, Plus, Trash2 } from "lucide-react"
+import { ClipboardList, Plus } from "lucide-react"
 import PageHeader from "@/features/dashboard/components/page-header"
-
-const USER_ID = "user-1"
+import { useUser } from "@/features/dashboard/hooks/use-user"
 
 export default function MyInspectionsPage() {
+  const { userId } = useUser()
   const { openInspections, pastInspections, isLoading, error, refetch } =
-    useInspections(USER_ID)
+    useInspections(userId!)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedInspection, setSelectedInspection] =
@@ -43,18 +43,19 @@ export default function MyInspectionsPage() {
   }
 
   const handleSubmit = async (data: InspectionFormData) => {
+    if (!userId) return null
     setIsSubmitting(true)
 
     const formData = {
       ...data,
-      inspectorId: USER_ID,
+      inspectorId: userId,
     }
 
     try {
       if (selectedInspection) {
         await updateInspection(selectedInspection.id, formData)
       } else {
-        await createInspection(USER_ID, formData)
+        await createInspection(userId, formData)
       }
 
       await refetch()

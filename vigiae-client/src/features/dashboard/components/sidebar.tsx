@@ -5,6 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import Logo from "@/shared/components/logo"
 import { ThemeToggle } from "@/shared/components/theme-toggle"
+import { useUser } from "../hooks/use-user"
 
 const menuItems = [
   { href: "/my-inspections", label: "Minhas Inspeções", icon: ClipboardList },
@@ -12,18 +13,18 @@ const menuItems = [
   { href: "/configurations", label: "Configurações", icon: Settings },
 ]
 
-const user = {
-  name: "João Silva",
-  email: "joao@email.com",
-  image: "/user.png",
-}
-
 export function Sidebar() {
+  const { user } = useUser()
   const pathname = usePathname()
 
   const handleLogout = async () => {
     await fetch("/api/logout", { method: "POST" })
     window.location.href = "/login"
+  }
+
+  if (!user) {
+    window.location.href = "/login"
+    return
   }
 
   return (
@@ -74,7 +75,7 @@ export function Sidebar() {
             <div className="flex items-center gap-3 p-2 pr-0 rounded-lg">
               <div className="avatar">
                 <div className="w-6 rounded-full ring-2 ring-primary ring-offset-base-200 ring-offset-2">
-                  <img src={user.image} alt={user.name} />
+                  <img src="/user.png" alt={user.name} />
                 </div>
               </div>
               <div className="flex-1 min-w-0">

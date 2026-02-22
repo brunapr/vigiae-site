@@ -4,7 +4,6 @@ export interface User {
   id: string
   email: string
   name: string
-  role: USER_ROLE
 }
 
 export interface LoginData {
@@ -20,4 +19,25 @@ export interface RegisterData extends LoginData {
 export interface AuthResponse {
   user: User
   token: string
+}
+
+export interface RegisterFormData extends LoginData {
+  password: string
+}
+
+export interface AuthResponse {
+  access_token: string
+  token_type: string
+}
+
+export interface LoginResponse {
+  success: boolean
+  user?: User
+  error?: string
+}
+
+export interface RegisterResponse {
+  success: boolean
+  user?: User
+  error?: string
 }
