@@ -11,7 +11,7 @@ Aplicação web para gestão de inspeções sanitárias, permitindo que inspetor
 
 ## 📦 Instalação
 
-# Clone o repositório
+### Clone o repositório
 
 ```bash
 git clone https://github.com/brunapr/vigiae-site.git
@@ -19,7 +19,7 @@ cd vigiae-site
 cd vigiae-client
 ```
 
-# Instale as dependências
+### Instale as dependências
 
 ```
 npm install
