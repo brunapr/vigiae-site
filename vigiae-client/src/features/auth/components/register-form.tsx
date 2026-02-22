@@ -23,6 +23,7 @@ export function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormData) => {
     setError("")
+
     const result = await registerUser(data)
 
     if (result.success) {

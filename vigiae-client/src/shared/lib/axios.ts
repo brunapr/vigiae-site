@@ -1,20 +1,27 @@
 import axios from "axios"
+import { cookies } from "next/headers"
 
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
   headers: {
     "Content-Type": "application/json",
   },
 })
 
-api.interceptors.request.use(config => {
-  const token = document.cookie
-    .split("; ")
-    .find(row => row.startsWith("auth-token="))
-    ?.split("=")[1]
+export async function get<T>(url: string) {
+  const token = (await cookies()).get("auth-token")?.value
+  if (!token) throw new Error("Não autenticado")
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
+  return api.get<T>(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}
+
+export async function post<T>(url: string, data: any) {
+  const token = (await cookies()).get("auth-token")?.value
+  if (!token) throw new Error("Não autenticado")
+
+  return api.post<T>(url, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}

@@ -26,12 +26,14 @@ export async function login(data: LoginFormData): Promise<LoginResponse> {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 60 * 60 * 24 * 7, // 7 dias
+      maxAge: 60 * 60 * 24 * 7,
     })
+
+    const token = response.data.access_token
 
     const userResponse = await api.get<User>("/auth/me", {
       headers: {
-        Authorization: `Bearer ${response.data.access_token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
 
@@ -41,7 +43,6 @@ export async function login(data: LoginFormData): Promise<LoginResponse> {
     return { success: false, error: message }
   }
 }
-
 export async function register(
   data: RegisterFormData
 ): Promise<RegisterResponse> {
@@ -73,17 +74,16 @@ export async function logout(): Promise<{ success: boolean }> {
   return { success: true }
 }
 
-export async function getCurrentUser(): Promise<User | null> {
-  try {
-    const token = (await cookies()).get("auth-token")?.value
-    if (!token) return null
+export async function getCurrentUser() {
+  const token = (await cookies()).get("auth-token")?.value
+  if (!token) return null
 
-    const response = await api.get<User>("/auth/me", {
+  try {
+    const response = await api.get("/auth/me", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-
     return response.data
   } catch {
     return null

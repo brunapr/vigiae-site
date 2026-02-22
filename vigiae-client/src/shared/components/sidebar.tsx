@@ -5,7 +5,8 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import Logo from "@/shared/components/logo"
 import { ThemeToggle } from "@/shared/components/theme-toggle"
-import { useUser } from "../hooks/use-user"
+import { User } from "@/features/auth/types/auth.types"
+import { logout } from "@/features/auth/api/auth-api"
 
 const menuItems = [
   { href: "/my-inspections", label: "Minhas Inspeções", icon: ClipboardList },
@@ -13,12 +14,11 @@ const menuItems = [
   { href: "/configurations", label: "Configurações", icon: Settings },
 ]
 
-export function Sidebar() {
-  const { user } = useUser()
+export function Sidebar({ user }: { user: User }) {
   const pathname = usePathname()
 
   const handleLogout = async () => {
-    await fetch("/api/logout", { method: "POST" })
+    await logout()
     window.location.href = "/login"
   }
 

@@ -1,7 +1,8 @@
+import { User } from "@/features/auth/types/auth.types"
 import Logo from "@/shared/components/logo"
 import { Menu } from "lucide-react"
 
-export default function MobileMenu() {
+export default function MobileMenu({ user }: { user: User }) {
   return (
     <div className="lg:hidden navbar bg-base-100 shadow-sm sticky top-0 z-30">
       <label

@@ -1,6 +1,6 @@
 "use server"
 
-import { InspectionFormData } from "../schemas/inspection-schema"
+import { get } from "@/shared/lib/axios"
 import {
   Inspection,
   InspectionsResponse,
@@ -29,11 +29,8 @@ const CLOSED_STATUSES: InspectionStatus[] = [
 export async function getOpenInspections(
   userId: string
 ): Promise<InspectionsResponse> {
-  await delay(300)
-
-  const inspections = inspectionsDb.filter(
-    i => i.inspectorId === userId && OPEN_STATUSES.includes(i.status)
-  )
+  const response = await get<InspectionsResponse>("/inspections/open")
+  const inspections = response.data.inspections
 
   return {
     inspections,
@@ -44,11 +41,8 @@ export async function getOpenInspections(
 export async function getAllInspections(
   userId: string
 ): Promise<InspectionsResponse> {
-  await delay(300)
-
-  const inspections = inspectionsDb.filter(
-    i => i.inspectorId === userId && CLOSED_STATUSES.includes(i.status)
-  )
+  const response = await get<InspectionsResponse>("/inspections/all")
+  const inspections = response.data.inspections
 
   return {
     inspections,

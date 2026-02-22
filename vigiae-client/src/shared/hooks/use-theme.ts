@@ -7,14 +7,9 @@ export function useTheme() {
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null
-    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-      .matches
-      ? "dark"
-      : "light"
-    const initialTheme = savedTheme || systemTheme
-
-    setTheme(initialTheme)
-    document.documentElement.setAttribute("data-theme", initialTheme)
+    const theme = savedTheme || "light"
+    setTheme(theme)
+    document.documentElement.setAttribute("data-theme", theme)
   }, [])
 
   const toggleTheme = () => {

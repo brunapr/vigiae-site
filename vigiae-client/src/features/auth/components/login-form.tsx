@@ -27,6 +27,7 @@ export function LoginForm() {
 
     if (result.success) {
       router.push("/my-inspections")
+
       router.refresh()
     } else {
       setError(result.error || "Erro ao fazer login")

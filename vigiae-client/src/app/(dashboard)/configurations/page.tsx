@@ -1,4 +1,4 @@
-import PageHeader from "@/features/dashboard/components/page-header"
+import PageHeader from "@/shared/components/page-header"
 import { Settings } from "lucide-react"
 
 export default function Configurations() {

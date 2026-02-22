@@ -1,4 +1,4 @@
-import PageHeader from "@/features/dashboard/components/page-header"
+import PageHeader from "@/shared/components/page-header"
 import { UserCircle } from "lucide-react"
 
 export default function MyAccount() {
