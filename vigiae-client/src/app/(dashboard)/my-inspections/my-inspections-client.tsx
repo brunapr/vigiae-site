@@ -14,6 +14,7 @@ import {
 import { ClipboardList, Plus } from "lucide-react"
 import PageHeader from "@/shared/components/page-header"
 import { User } from "@/features/auth/types/auth.types"
+import toast from "react-hot-toast"
 
 export default function MyInspectionsClient({ user }: { user: User }) {
   const { openInspections, pastInspections, isLoading, error, refetch } =
@@ -45,22 +46,24 @@ export default function MyInspectionsClient({ user }: { user: User }) {
     if (!user.id) return null
     setIsSubmitting(true)
 
-    const formData = {
-      ...data,
-      inspectorId: user.id,
-    }
-
     try {
       if (selectedInspection) {
-        await updateInspection(selectedInspection.id, formData)
+        const updatedInspection = {
+          ...selectedInspection,
+          ...data,
+        }
+
+        await updateInspection(selectedInspection.id, updatedInspection)
+        toast.success("Inspeção editada com sucesso!")
       } else {
-        await createInspection(user.id, formData)
+        await createInspection(data)
+        toast.success("Inspeção criada com sucesso!")
       }
 
       await refetch()
       handleCloseModal()
     } catch (err) {
-      alert("Erro ao salvar inspeção")
+      toast.success("Ocorreu um erro ao salvar a inspeção. Tente novamente.")
     } finally {
       setIsSubmitting(false)
     }

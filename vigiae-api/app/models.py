@@ -43,5 +43,12 @@ class Inspection(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
+    @property
+    def establishment(self):
+        return {
+            "name": self.establishment_name,
+            "address": self.establishment_address
+        }
+
     inspector_id = Column(Integer, ForeignKey("users.id"))
     inspector = relationship("User", back_populates="inspections")

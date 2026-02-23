@@ -15,7 +15,7 @@ export interface Establishment {
 export interface Inspection {
   id: string
   establishment: Establishment
-  inspectedAt: Date
+  inspected_at: string
   status: InspectionStatus
   createdAt: string
   updatedAt: string

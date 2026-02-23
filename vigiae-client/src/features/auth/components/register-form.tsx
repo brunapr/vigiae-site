@@ -8,6 +8,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { User, Mail, Lock, Loader2 } from "lucide-react"
 import Link from "next/link"
+import toast from "react-hot-toast"
 
 export function RegisterForm() {
   const router = useRouter()
@@ -27,10 +28,11 @@ export function RegisterForm() {
     const result = await registerUser(data)
 
     if (result.success) {
+      toast.success("Cadastro feito com sucesso! Você será logado.")
       router.push("/my-inspections")
       router.refresh()
     } else {
-      setError(result.error || "Erro ao criar conta")
+      toast.error("Erro ao criar conta.")
     }
   }
 

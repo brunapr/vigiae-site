@@ -1,9 +1,11 @@
+from datetime import datetime
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from app import schemas, models
 from app.database import get_db
-from app.dependencies import get_current_active_user
+from app.dependencies import get_current_active_user, get_current_user
 
 router = APIRouter(prefix="/inspections", tags=["inspections"])
 
@@ -47,22 +49,24 @@ def get_all_inspections(
 @router.post("/", response_model=schemas.InspectionResponse)
 def create_inspection(
     inspection: schemas.InspectionCreate,
-    current_user: models.User = Depends(get_current_active_user),
+    current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     db_inspection = models.Inspection(
         establishment_name=inspection.establishment.name,
         establishment_address=inspection.establishment.address,
-        inspected_at=inspection.inspected_at,
+        inspected_at=datetime.now(),
         status=inspection.status,
         description=inspection.description,
         urgency=inspection.urgency,
         needs_imediate_closure=inspection.needs_imediate_closure,
         inspector_id=current_user.id
     )
+    
     db.add(db_inspection)
     db.commit()
-    db.refresh(db_inspection)
+    db.refresh(db_inspection) 
+    
     return db_inspection
 
 @router.put("/{inspection_id}", response_model=schemas.InspectionResponse)

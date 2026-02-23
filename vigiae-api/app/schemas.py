@@ -33,7 +33,6 @@ class EstablishmentBase(BaseModel):
 
 class InspectionCreate(BaseModel):
     establishment: EstablishmentBase
-    inspected_at: datetime
     status: InspectionStatus = InspectionStatus.OPEN
     description: Optional[str] = None
     urgency: InspectionUrgency = InspectionUrgency.NORMAL

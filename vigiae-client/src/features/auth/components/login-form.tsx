@@ -8,6 +8,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Mail, Lock, Loader2 } from "lucide-react"
 import Link from "next/link"
+import toast from "react-hot-toast"
 
 export function LoginForm() {
   const router = useRouter()
@@ -26,11 +27,11 @@ export function LoginForm() {
     const result = await login(data)
 
     if (result.success) {
+      toast.success("Login feito com sucesso!")
       router.push("/my-inspections")
-
       router.refresh()
     } else {
-      setError(result.error || "Erro ao fazer login")
+      toast.error("Erro ao fazer login")
     }
   }
 

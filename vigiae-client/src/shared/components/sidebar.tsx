@@ -2,7 +2,7 @@
 
 import { Settings, LogOut, UserCircle, ClipboardList } from "lucide-react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { redirect, usePathname } from "next/navigation"
 import Logo from "@/shared/components/logo"
 import { ThemeToggle } from "@/shared/components/theme-toggle"
 import { User } from "@/features/auth/types/auth.types"
@@ -19,12 +19,11 @@ export function Sidebar({ user }: { user: User }) {
 
   const handleLogout = async () => {
     await logout()
-    window.location.href = "/login"
+    redirect("/login")
   }
 
   if (!user) {
-    window.location.href = "/login"
-    return
+    redirect("/login")
   }
 
   return (

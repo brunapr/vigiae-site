@@ -25,3 +25,21 @@ export async function post<T>(url: string, data: any) {
     headers: { Authorization: `Bearer ${token}` },
   })
 }
+
+export async function put<T>(url: string, data: any) {
+  const token = (await cookies()).get("auth-token")?.value
+  if (!token) throw new Error("Não autenticado")
+
+  return api.put<T>(url, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}
+
+export async function destroy<T>(url: string) {
+  const token = (await cookies()).get("auth-token")?.value
+  if (!token) throw new Error("Não autenticado")
+
+  return api.delete<T>(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}

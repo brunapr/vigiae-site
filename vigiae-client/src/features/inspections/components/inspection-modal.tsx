@@ -17,6 +17,7 @@ import {
   Info,
   Trash2,
   Home,
+  LoaderIcon,
 } from "lucide-react"
 
 interface InspectionModalProps {
@@ -255,10 +256,16 @@ export function InspectionModal({
             <button
               type="submit"
               form="inspection-form"
-              className={`btn btn-primary px-10 ${isLoading ? "loading" : ""}`}
+              className={`btn btn-primary min-w-40`}
               disabled={isLoading}
             >
-              {isEditing ? "Salvar" : "Criar"}
+              {isLoading ? (
+                <LoaderIcon className="animate-spin" />
+              ) : isEditing ? (
+                "Salvar"
+              ) : (
+                "Criar"
+              )}
             </button>
           </div>
         </div>

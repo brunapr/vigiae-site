@@ -1,30 +1,12 @@
 "use server"
 
-import { get } from "@/shared/lib/axios"
-import {
-  Inspection,
-  InspectionsResponse,
-  InspectionStatus,
-} from "../types/inspection.types"
-import { mockInspections } from "./mock-data"
+import { destroy, get, post, put } from "@/shared/lib/axios"
+import { Inspection, InspectionsResponse } from "../types/inspection.types"
 
 export type InspectionData = Omit<
   Inspection,
-  "id" | "inspectedAt" | "createdAt" | "updatedAt"
+  "id" | "inspected_at" | "createdAt" | "updatedAt" | "inspectorId"
 >
-
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
-
-// Simula banco de dados em memória
-let inspectionsDb = [...mockInspections]
-
-const OPEN_STATUSES: InspectionStatus[] = ["open"]
-const CLOSED_STATUSES: InspectionStatus[] = [
-  "in_accordance",
-  "pending",
-  "total_closure",
-  "partial_closure",
-]
 
 export async function getOpenInspections(
   userId: string
@@ -51,63 +33,28 @@ export async function getAllInspections(
 }
 
 export async function createInspection(
-  userId: string,
   data: InspectionData
 ): Promise<Inspection> {
-  await delay(500)
-
-  const newInspection: Inspection = {
-    id: `ins-${Date.now()}`,
+  const payload = {
     establishment: data.establishment,
-    inspectedAt: new Date(),
     status: data.status,
     description: data.description,
     urgency: data.urgency,
     needs_imediate_closure: data.needs_imediate_closure,
-    inspectorId: userId,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
   }
 
-  inspectionsDb.push(newInspection)
-  return newInspection
+  const response = await post<Inspection>("/inspections/", payload)
+  return response.data
 }
 
 export async function updateInspection(
   id: string,
   data: InspectionData
 ): Promise<Inspection | null> {
-  await delay(400)
-
-  const index = inspectionsDb.findIndex(i => i.id === id)
-  if (index === -1) return null
-
-  const updated: Inspection = {
-    ...inspectionsDb[index],
-    establishment: data.establishment,
-    status: data.status,
-    description: data.description,
-    urgency: data.urgency,
-    needs_imediate_closure: data.needs_imediate_closure,
-  }
-
-  inspectionsDb[index] = updated
-  return updated
+  const response = await put<Inspection>(`/inspections/${id}`, data)
+  return response.data
 }
 
-export async function deleteInspection(id: string): Promise<boolean> {
-  await delay(300)
-
-  const index = inspectionsDb.findIndex(i => i.id === id)
-  if (index === -1) return false
-
-  inspectionsDb.splice(index, 1)
-  return true
-}
-
-export async function getInspectionById(
-  id: string
-): Promise<Inspection | null> {
-  await delay(200)
-  return inspectionsDb.find(i => i.id === id) || null
+export async function deleteInspection(id: string): Promise<void> {
+  await destroy(`/inspections/${id}`)
 }

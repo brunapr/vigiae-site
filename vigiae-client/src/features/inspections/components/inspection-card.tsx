@@ -47,8 +47,9 @@ const urgencyConfig: Record<string, { color: string }> = {
   critical: { color: "text-error" },
 }
 
-function formatDate(date: Date): string {
-  return date.toLocaleDateString("pt-BR", {
+function formatDate(date: string): string {
+  const newDate = new Date(date)
+  return newDate.toLocaleDateString("pt-BR", {
     day: "2-digit",
     month: "2-digit",
     year: "2-digit",
@@ -60,7 +61,7 @@ function formatDate(date: Date): string {
 export function InspectionCard({ inspection, onClick }: InspectionCardProps) {
   const {
     establishment,
-    inspectedAt,
+    inspected_at,
     status,
     description,
     urgency,
@@ -95,16 +96,14 @@ export function InspectionCard({ inspection, onClick }: InspectionCardProps) {
           </div>
         </div>
 
-        {description && (
-          <p className="text-sm text-base-content/70 line-clamp-2">
-            {description}
-          </p>
-        )}
+        <p className="text-sm text-base-content/70 line-clamp-2 min-h-5">
+          {description}
+        </p>
 
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-2 text-sm">
             <Calendar className="h-4 w-4 text-primary" />
-            <span className="text-sm">{formatDate(inspectedAt)}</span>
+            <span className="text-sm">{formatDate(inspected_at)}</span>
           </div>
 
           <div className="flex items-center gap-2">
