@@ -48,9 +48,8 @@ uvicorn app.main:app --reload
 ```
 
 Acesse:
-API: http://localhost:8000
-Swagger UI: http://localhost:8000/docs
-Redoc: http://localhost:8000/redoc
+- API: http://localhost:8000 
+- Swagger UI: http://localhost:8000/docs 
 
 ## 🚀 Tecnologias
 
