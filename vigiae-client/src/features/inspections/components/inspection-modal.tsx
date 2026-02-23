@@ -130,7 +130,7 @@ export function InspectionModal({
                 <input
                   type="text"
                   className={`input input-bordered w-full ${errors.establishment?.name ? "input-error" : ""}`}
-                  placeholder="Ex: Restaurante Bom Sabor"
+                  placeholder="Digite o nome"
                   {...register("establishment.name")}
                 />
                 {errors.establishment?.name && (
@@ -149,7 +149,7 @@ export function InspectionModal({
                 <input
                   type="text"
                   className={`input input-bordered w-full ${errors.establishment?.address ? "input-error" : ""}`}
-                  placeholder="Ex: Rua das Flores, 123"
+                  placeholder="Digite o endereço"
                   {...register("establishment.address")}
                 />
                 {errors.establishment?.address && (

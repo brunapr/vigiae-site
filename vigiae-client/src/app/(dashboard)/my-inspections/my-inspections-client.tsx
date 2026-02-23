@@ -72,7 +72,7 @@ export default function MyInspectionsClient({ user }: { user: User }) {
   const handleDelete = async () => {
     if (!selectedInspection) return
 
-    if (!confirm("Tem certeza que deseja excluir esta inspeção?")) return
+    // if (!confirm("Tem certeza que deseja excluir esta inspeção?")) return
 
     setIsDeleting(true)
 
