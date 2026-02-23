@@ -26,4 +26,4 @@ Vigiaê permite que inspetores sanitários:
 
 ## 🏃 Como Rodar o Projeto
 
-Cada parte do projeto tem seu próprio README com instruções detalhadas:
+Cada parte do projeto tem seu próprio README com instruções detalhadas. Entre nas pastas para ver os requisitos e como rodar os projetos.
