@@ -138,6 +138,7 @@ export function InspectionModal({
                   </label>
                   <input
                     type="text"
+                    disabled={!!inspection}
                     className={`input input-bordered w-full ${errors.establishment?.name ? "input-error" : ""}`}
                     placeholder="Digite o nome"
                     {...register("establishment.name")}
@@ -157,6 +158,7 @@ export function InspectionModal({
                   </label>
                   <input
                     type="text"
+                    disabled={!!inspection}
                     className={`input input-bordered w-full ${errors.establishment?.address ? "input-error" : ""}`}
                     placeholder="Digite o endereço"
                     {...register("establishment.address")}

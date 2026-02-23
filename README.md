@@ -13,9 +13,9 @@ Vigiaê permite que inspetores sanitários:
 
 ## 🏗️ Arquitetura
 
-vigiae-site/
-├── vigiae-client/ # Frontend (Next.js + React)
-└── vigiae-api/ # Backend (FastAPI + SQLite)
+`vigiae-site/`  
+`├── vigiae-client/` # Frontend (Next.js + React)  
+`└── vigiae-api/` # Backend (FastAPI + SQLite)
 
 ## 📦 Pré-requisitos Gerais
 
