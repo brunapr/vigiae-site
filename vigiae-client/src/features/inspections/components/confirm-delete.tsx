@@ -10,7 +10,7 @@ export default function ConfirmDelete({
   isDeleting: boolean
 }) {
   return (
-    <div className="modal modal-open z-50!">
+    <div className="modal modal-open z-50">
       <div className="modal-box max-w-sm">
         <div className="flex items-center gap-3 mb-4">
           <h3 className="font-semibold">Confirmar exclusão</h3>

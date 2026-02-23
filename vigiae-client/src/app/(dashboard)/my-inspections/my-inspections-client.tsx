@@ -72,8 +72,6 @@ export default function MyInspectionsClient({ user }: { user: User }) {
   const handleDelete = async () => {
     if (!selectedInspection) return
 
-    // if (!confirm("Tem certeza que deseja excluir esta inspeção?")) return
-
     setIsDeleting(true)
 
     try {
@@ -105,7 +103,7 @@ export default function MyInspectionsClient({ user }: { user: User }) {
         </button>
       </div>
 
-      <div className="fixed left-0 bottom-4 w-full z-100 p-4 sm:hidden mb-0!">
+      <div className="fixed left-0 bottom-4 w-full z-20 p-4 sm:hidden mb-0!">
         <button
           onClick={handleCreate}
           className="btn btn-primary py-4 gap-2 w-[calc(100%-1rem)]"
