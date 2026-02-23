@@ -20,8 +20,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR" data-theme="light" className={poppins.variable}>
-      <body className={`${poppins.className} antialiased`}>{children}</body>
-      <Toaster position="top-center" />
+      <body className={`${poppins.className} antialiased`}>
+        {children}
+        <Toaster position="top-center" />
+      </body>
     </html>
   )
 }
