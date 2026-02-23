@@ -1,10 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { render, screen, fireEvent, waitFor } from "@testing-library/react"
 import { LoginForm } from "../components/login-form"
+import toast from "react-hot-toast"
 
-// Mock da server action
 vi.mock("../api/auth-api", () => ({
   login: vi.fn(),
+}))
+
+vi.mock("react-hot-toast", () => ({
+  default: {
+    error: vi.fn(),
+    success: vi.fn(),
+  },
 }))
 
 import { login } from "../api/auth-api"
@@ -75,6 +82,28 @@ describe("LoginForm", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/entrando/i)).toBeInTheDocument()
+    })
+  })
+
+  it("mostra toast de erro quando login falha", async () => {
+    vi.mocked(login).mockResolvedValue({
+      success: false,
+      error: "Erro ao fazer login",
+    })
+
+    render(<LoginForm />)
+
+    fireEvent.change(screen.getByPlaceholderText("seu@email.com"), {
+      target: { value: "test@test.com" },
+    })
+    fireEvent.change(screen.getByPlaceholderText("••••••"), {
+      target: { value: "senha-errada" },
+    })
+
+    fireEvent.click(screen.getByRole("button", { name: /entrar/i }))
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith("Erro ao fazer login")
     })
   })
 })
