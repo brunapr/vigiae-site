@@ -41,12 +41,6 @@ npm run dev
 
 Acesse: http://localhost:3000
 
-## 🐳 Docker (opcional)
-
-```
-docker-compose up
-```
-
 ## 🚀 Tecnologias
 
 - **Next.js** - Framework React

@@ -1,0 +1,31 @@
+services:
+  api:
+    build: ./vigiae-api
+    container_name: vigiae-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./vigiae-api:/app
+      - /app/__pycache__
+    networks:
+      - vigiae-network
+
+  client:
+    build: ./vigiae-client
+    container_name: vigiae-client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./vigiae-client:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - API_URL=http://api:8000
+    depends_on:
+      - api
+    networks:
+      - vigiae-network
+
+networks:
+  vigiae-network:

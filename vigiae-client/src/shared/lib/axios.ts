@@ -1,8 +1,14 @@
 import axios from "axios"
 import { cookies } from "next/headers"
 
+const isServer = typeof window === "undefined"
+
+const baseURL = isServer
+  ? process.env.API_URL || "http://api:8000"
+  : process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
+  baseURL,
   headers: {
     "Content-Type": "application/json",
   },

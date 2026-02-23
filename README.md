@@ -26,4 +26,10 @@ Vigiaê permite que inspetores sanitários:
 
 ## 🏃 Como Rodar o Projeto
 
-Cada parte do projeto tem seu próprio README com instruções detalhadas. Entre nas pastas para ver os requisitos e como rodar os projetos.
+Caso você tenha o Docker instalado, apenas use:
+
+```bash
+docker compose up --build
+```
+
+Caso não tenha, cada pasta ensina a servir o back e o front separadamente.
