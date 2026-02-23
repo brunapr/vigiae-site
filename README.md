@@ -9,7 +9,7 @@ Vigiaê permite que inspetores sanitários:
 - Cadastrem e gerenciem inspeções em estabelecimentos comerciais
 - Acompanhem status de conformidade (em aberto, pendente, interdições)
 - Visualizem histórico de vistorias
-- Recebam alertas de fechamento imediato
+- Vejam alertas de fechamento imediato
 
 ## 🏗️ Arquitetura
 
@@ -21,7 +21,7 @@ Vigiaê permite que inspetores sanitários:
 
 - **Node.js** 18+ (para frontend)
 - **Python** 3.9+ (para backend)
-- **npm** ou **yarn**
+- **npm** 
 - **Git**
 
 ## 🏃 Como Rodar o Projeto
@@ -29,7 +29,7 @@ Vigiaê permite que inspetores sanitários:
 Caso você tenha o Docker instalado, apenas use:
 
 ```bash
-docker compose up --build
+docker compose up 
 ```
 
 Caso não tenha, cada pasta ensina a servir o back e o front separadamente.
