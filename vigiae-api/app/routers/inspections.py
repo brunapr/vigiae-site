@@ -9,13 +9,6 @@ from app.dependencies import get_current_active_user, get_current_user
 
 router = APIRouter(prefix="/inspections", tags=["inspections"])
 
-OPEN_STATUSES = [models.InspectionStatus.OPEN, models.InspectionStatus.PENDING]
-CLOSED_STATUSES = [
-    models.InspectionStatus.IN_ACCORDANCE,
-    models.InspectionStatus.TOTAL_CLOSURE,
-    models.InspectionStatus.PARTIAL_CLOSURE
-]
-
 @router.get("/open", response_model=schemas.InspectionsList)
 def get_open_inspections(
     current_user: models.User = Depends(get_current_active_user),
@@ -23,7 +16,7 @@ def get_open_inspections(
 ):
     inspections = db.query(models.Inspection).filter(
         models.Inspection.inspector_id == current_user.id,
-        models.Inspection.status.in_(OPEN_STATUSES)
+        models.Inspection.is_complete == False
     ).order_by(models.Inspection.inspected_at).all()
     
     return {
@@ -38,7 +31,7 @@ def get_all_inspections(
 ):
     inspections = db.query(models.Inspection).filter(
         models.Inspection.inspector_id == current_user.id,
-        models.Inspection.status.in_(CLOSED_STATUSES)
+        models.Inspection.is_complete == True
     ).order_by(models.Inspection.inspected_at.desc()).all()
     
     return {
@@ -83,6 +76,9 @@ def update_inspection(
     
     if not db_inspection:
         raise HTTPException(status_code=404, detail="Inspeção não encontrada")
+    
+    if db_inspection.is_complete:
+        raise HTTPException(status_code=403, detail="Inspeção já foi finalizada e não pode ser alterada")
     
     # Atualiza campos
     update_data = inspection_update.dict(exclude_unset=True)

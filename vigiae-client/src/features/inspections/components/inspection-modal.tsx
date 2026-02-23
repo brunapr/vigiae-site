@@ -7,7 +7,11 @@ import {
   inspectionSchema,
   InspectionFormData,
 } from "../schemas/inspection-schema"
-import { Inspection, InspectionStatus } from "../types/inspection.types"
+import {
+  Inspection,
+  InspectionStatus,
+  InspectionUrgency,
+} from "../types/inspection.types"
 import {
   X,
   MapPin,
@@ -29,6 +33,7 @@ interface InspectionModalProps {
   isLoading?: boolean
   handleDelete: () => Promise<void>
   isDeleting: boolean
+  setComplete: (complete: boolean) => void
 }
 
 const statusOptions: { value: InspectionStatus; label: string }[] = [
@@ -39,7 +44,11 @@ const statusOptions: { value: InspectionStatus; label: string }[] = [
   { value: "partial_closure", label: "Interdição parcial" },
 ]
 
-const urgencyOptions = [
+const urgencyOptions: {
+  value: InspectionUrgency
+  label: string
+  color: string
+}[] = [
   { value: "low", label: "Baixa", color: "text-base-content" },
   { value: "normal", label: "Normal", color: "text-primary" },
   { value: "high", label: "Alta", color: "text-warning" },
@@ -54,8 +63,10 @@ export function InspectionModal({
   isLoading,
   handleDelete,
   isDeleting,
+  setComplete,
 }: InspectionModalProps) {
   const isEditing = !!inspection
+  const isComplete = (inspection && inspection.is_complete) || false
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
 
   const {
@@ -71,6 +82,7 @@ export function InspectionModal({
       description: "",
       urgency: "normal",
       needs_imediate_closure: false,
+      is_complete: false,
     },
   })
 
@@ -113,7 +125,11 @@ export function InspectionModal({
         <div className="modal-box w-full h-full lg:h-auto lg:max-h-[90dvh] lg:max-w-2xl lg:rounded-2xl rounded-none m-0 max-lg:p-0 lg:m-auto relative flex flex-col">
           <div className="flex items-center justify-between p-4 lg:p-0 lg:mb-6 border-b lg:border-0 border-base-200">
             <h3 className="font-bold text-lg flex items-center gap-2">
-              {isEditing ? "Editar Inspeção" : "Nova Inspeção"}
+              {isComplete
+                ? "Inspeção finalizada"
+                : isEditing
+                  ? "Editar Inspeção"
+                  : "Nova Inspeção"}
             </h3>
             <button
               onClick={handleClose}
@@ -138,7 +154,7 @@ export function InspectionModal({
                   </label>
                   <input
                     type="text"
-                    disabled={!!inspection}
+                    disabled={isComplete}
                     className={`input input-bordered w-full ${errors.establishment?.name ? "input-error" : ""}`}
                     placeholder="Digite o nome"
                     {...register("establishment.name")}
@@ -158,7 +174,7 @@ export function InspectionModal({
                   </label>
                   <input
                     type="text"
-                    disabled={!!inspection}
+                    disabled={isComplete}
                     className={`input input-bordered w-full ${errors.establishment?.address ? "input-error" : ""}`}
                     placeholder="Digite o endereço"
                     {...register("establishment.address")}
@@ -179,6 +195,7 @@ export function InspectionModal({
                     </span>
                   </label>
                   <select
+                    disabled={isComplete}
                     className="select select-bordered w-full"
                     {...register("status")}
                   >
@@ -197,6 +214,7 @@ export function InspectionModal({
                     </span>
                   </label>
                   <select
+                    disabled={isComplete}
                     className="select select-bordered w-full"
                     {...register("urgency")}
                   >
@@ -220,6 +238,7 @@ export function InspectionModal({
                   </span>
                 </label>
                 <textarea
+                  disabled={isComplete}
                   className="textarea textarea-bordered h-32 lg:h-20 w-full resize-none"
                   placeholder="Observações sobre a inspeção..."
                   {...register("description")}
@@ -229,6 +248,7 @@ export function InspectionModal({
               <div className="form-control">
                 <label className="label cursor-pointer justify-start gap-3">
                   <input
+                    disabled={isComplete}
                     type="checkbox"
                     className="checkbox checkbox-error"
                     {...register("needs_imediate_closure")}
@@ -252,32 +272,63 @@ export function InspectionModal({
                 className="btn btn-error gap-2"
               >
                 <Trash2 className="h-4 w-4" />
-                Excluir
               </button>
             )}
 
             <div className="flex space-x-3 items-center">
-              <button
-                type="button"
-                onClick={handleClose}
-                className="btn btn-ghost"
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                form="inspection-form"
-                className={`btn btn-primary min-w-40`}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <LoaderIcon className="animate-spin" />
-                ) : isEditing ? (
-                  "Salvar"
-                ) : (
-                  "Criar"
-                )}
-              </button>
+              {isComplete && null}
+
+              {!isComplete && isEditing && (
+                <>
+                  <button
+                    type="submit"
+                    form="inspection-form"
+                    name="action"
+                    value="save"
+                    className="btn btn-ghost min-w-32"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <LoaderIcon className="animate-spin" />
+                    ) : (
+                      "Salvar Edição"
+                    )}
+                  </button>
+
+                  <button
+                    type="submit"
+                    form="inspection-form"
+                    name="action"
+                    value="complete"
+                    className="btn btn-primary min-w-32"
+                    onClick={() => setComplete(true)}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <LoaderIcon className="animate-spin" />
+                    ) : (
+                      "Finalizar"
+                    )}
+                  </button>
+                </>
+              )}
+
+              {!isComplete && !isEditing && (
+                <button
+                  type="submit"
+                  form="inspection-form"
+                  name="action"
+                  value="create"
+                  className="btn btn-primary min-w-32"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <LoaderIcon className="animate-spin" />
+                  ) : (
+                    "Criar"
+                  )}
+                </button>
+              )}
             </div>
           </div>
         </div>

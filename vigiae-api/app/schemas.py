@@ -37,6 +37,7 @@ class InspectionCreate(BaseModel):
     description: Optional[str] = None
     urgency: InspectionUrgency = InspectionUrgency.NORMAL
     needs_imediate_closure: bool = False
+    is_complete: bool = False
 
 class InspectionUpdate(BaseModel):
     establishment: Optional[EstablishmentBase] = None
@@ -45,6 +46,7 @@ class InspectionUpdate(BaseModel):
     description: Optional[str] = None
     urgency: Optional[InspectionUrgency] = None
     needs_imediate_closure: Optional[bool] = None
+    is_complete: Optional[bool] = None
 
 class InspectionResponse(BaseModel):
     id: int
@@ -54,6 +56,7 @@ class InspectionResponse(BaseModel):
     description: Optional[str]
     urgency: InspectionUrgency
     needs_imediate_closure: bool
+    is_complete: bool
     created_at: datetime
     updated_at: datetime
     inspector_id: int

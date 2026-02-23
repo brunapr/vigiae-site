@@ -20,7 +20,7 @@ export async function getOpenInspections(
   }
 }
 
-export async function getAllInspections(
+export async function getCompleteInspections(
   userId: string
 ): Promise<InspectionsResponse> {
   const response = await get<InspectionsResponse>("/inspections/all")

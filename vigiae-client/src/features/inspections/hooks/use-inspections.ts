@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { Inspection } from "../types/inspection.types"
-import { getOpenInspections, getAllInspections } from "../api/inspections-api"
+import {
+  getOpenInspections,
+  getCompleteInspections,
+} from "../api/inspections-api"
 
 interface UseInspectionsReturn {
   openInspections: Inspection[]
@@ -25,7 +28,7 @@ export function useInspections(userId: string): UseInspectionsReturn {
     try {
       const [openRes, pastRes] = await Promise.all([
         getOpenInspections(userId),
-        getAllInspections(userId),
+        getCompleteInspections(userId),
       ])
 
       setOpenInspections(openRes.inspections)

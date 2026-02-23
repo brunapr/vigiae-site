@@ -25,6 +25,7 @@ export default function MyInspectionsClient({ user }: { user: User }) {
     useState<Inspection | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [complete, setComplete] = useState(false)
 
   const handleCreate = () => {
     setSelectedInspection(null)
@@ -48,13 +49,23 @@ export default function MyInspectionsClient({ user }: { user: User }) {
 
     try {
       if (selectedInspection) {
-        const updatedInspection = {
+        const updatedInspection: Inspection = {
           ...selectedInspection,
           ...data,
         }
 
+        if (complete) {
+          updatedInspection.is_complete = true
+          setComplete(false)
+        }
+
         await updateInspection(selectedInspection.id, updatedInspection)
-        toast.success("Inspeção editada com sucesso!")
+
+        if (complete) {
+          toast.success("Inspeção finalizada com sucesso!")
+        } else {
+          toast.success("Inspeção editada com sucesso!")
+        }
       } else {
         await createInspection(data)
         toast.success("Inspeção criada com sucesso!")
@@ -128,14 +139,15 @@ export default function MyInspectionsClient({ user }: { user: User }) {
       />
 
       <InspectionsList
-        title="Inspeções Passadas"
+        title="Finalizadas"
         inspections={pastInspections}
         isLoading={isLoading}
-        emptyMessage="Nenhuma inspeção passada encontrada"
+        emptyMessage="Nenhuma inspeção finalizada encontrada"
         onInspectionClick={handleEdit}
       />
 
       <InspectionModal
+        setComplete={setComplete}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onSubmit={handleSubmit}

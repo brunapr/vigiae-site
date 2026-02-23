@@ -15,7 +15,7 @@ class InspectionUrgency(str, enum.Enum):
     LOW = "low"
     NORMAL = "normal"
     HIGH = "high"
-    CRITICAL = "critial"
+    CRITICAL = "critical"
 
 class User(Base):
     __tablename__ = "users"
@@ -40,6 +40,7 @@ class Inspection(Base):
     description = Column(String, nullable=True)
     urgency = Column(Enum(InspectionUrgency), default=InspectionUrgency.NORMAL)
     needs_imediate_closure = Column(Boolean, default=False)
+    is_complete = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     

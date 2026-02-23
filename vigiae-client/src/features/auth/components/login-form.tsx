@@ -31,7 +31,7 @@ export function LoginForm() {
       router.push("/my-inspections")
       router.refresh()
     } else {
-      toast.error("Erro ao fazer login")
+      toast.error("Erro ao fazer login.")
     }
   }
 

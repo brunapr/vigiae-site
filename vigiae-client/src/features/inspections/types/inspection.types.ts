@@ -23,6 +23,7 @@ export interface Inspection {
   description?: string
   urgency?: InspectionUrgency
   needs_imediate_closure: boolean
+  is_complete: boolean
 }
 
 export interface InspectionsResponse {

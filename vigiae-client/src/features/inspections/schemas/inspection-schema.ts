@@ -15,6 +15,7 @@ export const inspectionSchema = z.object({
   description: z.string().optional(),
   urgency: z.enum(["low", "normal", "high", "critical"]).optional(),
   needs_imediate_closure: z.boolean().default(false),
+  is_complete: z.boolean().default(false),
 })
 
 export type InspectionFormData = z.infer<typeof inspectionSchema>
